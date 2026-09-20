@@ -1,4 +1,4 @@
-const CACHE_NAME = "adivina-micronacion-v1";
+const CACHE_NAME = "adivina-micronacion-v2";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
@@ -29,10 +29,31 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Estrategia cache-first con actualización en segundo plano
+// El documento HTML se pide siempre a la red primero, para que una
+// actualización se vea de inmediato; si no hay conexión, se usa la caché.
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
+  const isDocument =
+    event.request.mode === "navigate" ||
+    event.request.destination === "document";
+
+  if (isDocument) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, networkResponse.clone());
+          });
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Resto de recursos (manifiesto, íconos, banderas): cache-first con
+  // actualización en segundo plano.
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       const fetchPromise = fetch(event.request)

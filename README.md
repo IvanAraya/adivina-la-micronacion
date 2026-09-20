@@ -62,5 +62,5 @@ Como las imágenes se enlazan directamente desde Wikimedia (no se guardan copias
 ## Notas
 
 - Todas las rutas (`manifest.json`, `service-worker.js`, íconos) usan rutas relativas (`./`) para funcionar correctamente en la subruta que asigna GitHub Pages (`usuario.github.io/repositorio/`).
-- Si actualizas `index.html` en el futuro, cambia el nombre de `CACHE_NAME` en `service-worker.js` (por ejemplo, a `v2`) para forzar que los usuarios reciban la versión nueva en lugar de la cacheada.
+- El documento HTML se pide siempre a la red primero (con la caché como respaldo si no hay conexión), así que los cambios en `index.html` se ven de inmediato en la próxima recarga. Si en el futuro cambias `manifest.json` o los íconos, cambia el nombre de `CACHE_NAME` en `service-worker.js` (por ejemplo, a `v3`) para forzar que esos archivos se renueven en la caché.
 - Proyecto hermano: [Adivina la Bandera](https://github.com/IvanAraya/adivina-la-bandera), el mismo juego pero con banderas de países reales.
