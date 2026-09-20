@@ -1,4 +1,4 @@
-const CACHE_NAME = "adivina-micronacion-v2";
+const CACHE_NAME = "adivina-micronacion-v3";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
