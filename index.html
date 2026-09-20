@@ -86,6 +86,7 @@
     box-shadow: 0 4px 14px rgba(0,0,0,0.06);
   }
   .flag {
+    position: relative;
     width: 100%;
     max-width: 240px;
     aspect-ratio: 3 / 2;
@@ -101,6 +102,34 @@
     height: 100%;
     object-fit: contain;
     background: #ffffff;
+  }
+  .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    margin: -14px 0 0 -14px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .flag-error {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 8px;
   }
   .credit {
     min-height: 14px;
@@ -374,12 +403,18 @@
 
   function newRound() {
     current = pickRandom();
-    flagBox.innerHTML = "";
+    flagBox.innerHTML = '<div class="spinner"></div>';
     const img = document.createElement("img");
-    img.src = current.img;
     img.alt = "Bandera de " + current.name;
-    img.loading = "lazy";
     img.referrerPolicy = "no-referrer";
+    img.addEventListener("load", () => {
+      const spinner = flagBox.querySelector(".spinner");
+      if (spinner) spinner.remove();
+    });
+    img.addEventListener("error", () => {
+      flagBox.innerHTML = '<div class="flag-error">⚠️<br>No se pudo cargar la imagen</div>';
+    });
+    img.src = current.img;
     flagBox.appendChild(img);
     answerEl.textContent = "¿De qué micronación es esta bandera?";
     answerEl.classList.add("hidden-text");
