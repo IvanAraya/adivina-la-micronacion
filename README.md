@@ -2,7 +2,7 @@
 
 Juego web progresivo (PWA) para adivinar micronaciones (entidades que se autoproclaman naciones o estados soberanos sin reconocimiento internacional) a partir de su bandera. Funciona sin conexión una vez instalada.
 
-Incluye 15 micronaciones conocidas: Sealand, Molossia, Ladonia, Talossa, Liberland, Seborga, Freetown Christiania, Atlantium, Westarctica, Hutt River, Zaqistán, Redonda, Užupis, Elgaland-Vargaland y Kugelmugel.
+Incluye 25 micronaciones conocidas: Sealand, Molossia, Ladonia, Talossa, Liberland, Seborga, Freetown Christiania, Atlantium, Westarctica, Hutt River, Zaqistán, Redonda, Užupis, Elgaland-Vargaland, Kugelmugel, Araucanía y Patagonia, Isla de las Rosas, Conch (Cayo Hueso), Minerva, Saugeais, Flandrensis, el Reino Gay y Lésbico de las Islas del Mar del Coral, Outer Baldonia, Austenasia e Imperio Aericano.
 
 ## Sobre las banderas
 
@@ -27,6 +27,16 @@ Créditos por bandera (página del archivo en Wikimedia Commons):
 | Užupis | [Flag_of_the_Republic_of_Uzupis.gif](https://commons.wikimedia.org/wiki/File:Flag_of_the_Republic_of_Uzupis.gif) |
 | Elgaland-Vargaland | [Elgaland-Vargaland_flag.png](https://commons.wikimedia.org/wiki/File:Elgaland-Vargaland_flag.png) |
 | Kugelmugel | [Flag_of_Kugelmugel_in_Austria.png](https://commons.wikimedia.org/wiki/File:Flag_of_Kugelmugel_in_Austria.png) |
+| Araucanía y Patagonia | [Flag_of_the_Kingdom_of_Araucanía_and_Patagonia.svg](https://commons.wikimedia.org/wiki/File:Flag_of_the_Kingdom_of_Araucan%C3%ADa_and_Patagonia.svg) |
+| Isla de las Rosas | [Rose_Island_Flag.svg](https://commons.wikimedia.org/wiki/File:Rose_Island_Flag.svg) |
+| Conch (Cayo Hueso) | [Flag_of_Key_West,_Florida.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Key_West,_Florida.svg) |
+| Minerva | [Flag_Minerva.svg](https://commons.wikimedia.org/wiki/File:Flag_Minerva.svg) |
+| Saugeais | [Flag_of_Saugeais.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Saugeais.svg) |
+| Flandrensis | [Flag_of_Flandrensis.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Flandrensis.svg) |
+| Reino Gay y Lésbico de las Islas del Mar del Coral | [Gay_Pride_Flag.svg](https://commons.wikimedia.org/wiki/File:Gay_Pride_Flag.svg) |
+| Outer Baldonia | [Flag_of_Outer_Baldonia.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Outer_Baldonia.svg) |
+| Austenasia | [Flag_of_Austenasia.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Austenasia.svg) |
+| Imperio Aericano | [Flag_of_Aerica.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Aerica.svg) |
 
 Como las imágenes se enlazan directamente desde Wikimedia (no se guardan copias en este repositorio), la primera vez que se ve cada bandera requiere conexión a internet; después queda disponible sin conexión gracias al `service-worker.js`, que la cachea automáticamente.
 
