@@ -6,9 +6,9 @@ Incluye 25 micronaciones conocidas: Sealand, Molossia, Ladonia, Talossa, Liberla
 
 ## Sobre las banderas
 
-Las micronaciones no tienen código ISO 3166-1, por lo que no existe un emoji de bandera para ellas. Cada bandera se carga directamente desde el archivo real publicado en **Wikimedia Commons** (mediante `Special:FilePath`, que siempre apunta al archivo vigente). Al revelar la respuesta, la app muestra un enlace "Wikimedia Commons" hacia la página del archivo de esa bandera, donde figuran el autor y la licencia correspondiente (la mayoría son CC BY-SA).
+Las micronaciones no tienen código ISO 3166-1, por lo que no existe un emoji de bandera para ellas. Cada bandera se carga directamente desde el archivo real publicado en **Wikimedia Commons** (mediante `Special:FilePath`, que siempre apunta al archivo vigente), salvo la de Obsidia, que se toma de **MicroWiki** (micronations.wiki) porque no está publicada en Commons. Al revelar la respuesta, la app muestra un enlace hacia la página del archivo de esa bandera, donde figuran el autor y la licencia correspondiente (la mayoría son CC BY-SA).
 
-Créditos por bandera (página del archivo en Wikimedia Commons):
+Créditos por bandera (página del archivo de origen):
 
 | Micronación | Archivo |
 |---|---|
@@ -36,7 +36,7 @@ Créditos por bandera (página del archivo en Wikimedia Commons):
 | Outer Baldonia | [Flag_of_Outer_Baldonia.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Outer_Baldonia.svg) |
 | Austenasia | [Flag_of_Austenasia.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Austenasia.svg) |
 | Imperio Aericano | [Flag_of_Aerica.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Aerica.svg) |
-| Estados Libres Ambulantes de Obsidia | [Obsidia_flag.jpg](https://commons.wikimedia.org/wiki/File:Obsidia_flag.jpg) |
+| Estados Libres Ambulantes de Obsidia | [Flag_of_the_Ambulatory_Free_States_of_Obsidia.svg (MicroWiki)](https://micronations.wiki/wiki/File:Flag_of_the_Ambulatory_Free_States_of_Obsidia.svg) |
 
 Como las imágenes se enlazan directamente desde Wikimedia (no se guardan copias en este repositorio), la primera vez que se ve cada bandera requiere conexión a internet; después queda disponible sin conexión gracias al `service-worker.js`, que la cachea automáticamente.
 
