@@ -391,10 +391,26 @@
   let current = null;
   let seenCount = 0;
   let revealed = false;
+  let deck = [];
 
-  function pickRandom() {
-    const idx = Math.floor(Math.random() * micronations.length);
-    return micronations[idx];
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function pickNext() {
+    if (deck.length === 0) {
+      deck = shuffle(micronations.slice());
+      // Evita que la última mostrada del ciclo anterior se repita justo al empezar el nuevo
+      if (deck.length > 1 && current && deck[deck.length - 1] === current) {
+        const swapWith = Math.floor(Math.random() * (deck.length - 1));
+        [deck[deck.length - 1], deck[swapWith]] = [deck[swapWith], deck[deck.length - 1]];
+      }
+    }
+    return deck.pop();
   }
 
   function updateScoreText() {
@@ -402,7 +418,7 @@
   }
 
   function newRound() {
-    current = pickRandom();
+    current = pickNext();
     flagBox.innerHTML = '<div class="spinner"></div>';
     const img = document.createElement("img");
     img.alt = "Bandera de " + current.name;
@@ -438,6 +454,7 @@
 
   function resetGame() {
     seenCount = 0;
+    deck = [];
     updateScoreText();
     newRound();
   }
