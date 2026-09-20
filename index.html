@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adivina la micronación</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#7c3aed">
+<meta name="description" content="Juego para adivinar micronaciones a partir de su bandera">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Micronaciones">
+<style>
+  :root {
+    --bg: #f4f6f8;
+    --card-bg: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --accent: #7c3aed;
+    --accent-hover: #6d28d9;
+    --border: #e5e7eb;
+    --correct: #16a34a;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14141f;
+      --card-bg: #1f1f2e;
+      --text: #f0f0f5;
+      --muted: #9ca3af;
+      --accent: #a78bfa;
+      --accent-hover: #8b5cf6;
+      --border: #33334a;
+      --correct: #4ade80;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14141f;
+    --card-bg: #1f1f2e;
+    --text: #f0f0f5;
+    --muted: #9ca3af;
+    --accent: #a78bfa;
+    --accent-hover: #8b5cf6;
+    --border: #33334a;
+    --correct: #4ade80;
+  }
+  html, body {
+    height: 100%;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .app {
+    width: 100%;
+    max-width: 420px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.4rem;
+    margin: 0 0 20px;
+  }
+  .score {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
+  .flag {
+    width: 100%;
+    max-width: 240px;
+    aspect-ratio: 3 / 2;
+    margin: 0 auto 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .flag svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .answer {
+    min-height: 32px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--correct);
+  }
+  .answer.hidden-text {
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 1rem;
+  }
+  .hint {
+    min-height: 18px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .btn-reveal {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-reveal:hover { background: var(--accent-hover); }
+  .btn-next {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-next:hover { background: rgba(124,58,237,0.08); }
+  .btn-reset {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-reset:hover { background: rgba(107,114,128,0.1); }
+  .footer-link {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-link:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>🏴 Adivina la micronación</h1>
+  <div class="score" id="score">Vistas: 0 · Total de micronaciones: 0</div>
+  <div class="card">
+    <div class="flag" id="flagBox"></div>
+    <div class="answer hidden-text" id="answerText">¿De qué micronación es esta bandera?</div>
+    <div class="hint" id="hintText"></div>
+    <div class="buttons">
+      <button class="btn-reveal" id="revealBtn">Revelar</button>
+      <button class="btn-next" id="nextBtn">Siguiente</button>
+      <button class="btn-reset" id="resetBtn">Reiniciar</button>
+    </div>
+  </div>
+  <a class="footer-link" href="https://ivanaraya.github.io/adivina-la-bandera/">Jugar con banderas de países →</a>
+</div>
+
+<script>
+  // Micronaciones: entidades que se autoproclaman naciones o estados soberanos
+  // sin reconocimiento internacional. No poseen código ISO 3166-1, por lo que
+  // no existe un emoji de bandera para ellas: cada bandera se dibuja en SVG
+  // siguiendo su diseño real (colores y elementos son representaciones
+  // simplificadas con fines de juego, no reproducciones heráldicas exactas).
+  const micronations = [
+    {
+      name: "Principado de Sealand",
+      hint: "Antigua plataforma militar en el mar del Norte, frente a las costas de Reino Unido",
+      svg: '<rect width="300" height="200" fill="#c8102e"/><polygon points="300,0 300,200 0,200" fill="#000000"/><line x1="0" y1="200" x2="300" y2="0" stroke="#ffffff" stroke-width="34"/>'
+    },
+    {
+      name: "República de Molossia",
+      hint: "Micronación en el desierto de Nevada, Estados Unidos",
+      svg: '<rect width="300" height="66.67" y="0" fill="#1c3f94"/><rect width="300" height="66.67" y="66.67" fill="#ffffff"/><rect width="300" height="66.66" y="133.34" fill="#2e8b3d"/>'
+    },
+    {
+      name: "Ladonia",
+      hint: "Micronación artística en la costa sur de Suecia",
+      svg: '<rect width="300" height="200" fill="#009000"/><rect x="70" y="0" width="26" height="200" fill="#009000" stroke="#ffffff" stroke-width="6"/><rect x="0" y="87" width="300" height="26" fill="#009000" stroke="#ffffff" stroke-width="6"/>'
+    },
+    {
+      name: "Reino de Talossa",
+      hint: "Una de las micronaciones más antiguas, fundada por un adolescente en Wisconsin, EE. UU.",
+      svg: '<rect width="300" height="100" y="0" fill="#0f8a3c"/><rect width="300" height="100" y="100" fill="#cc1122"/>'
+    },
+    {
+      name: "República Libre de Liberland",
+      hint: "Territorio en disputa entre Serbia y Croacia, a orillas del río Danubio",
+      svg: '<rect width="300" height="200" fill="#f6c500"/><rect y="80" width="300" height="40" fill="#000000"/><rect x="115" y="70" width="70" height="60" rx="6" fill="#f6c500" stroke="#000000" stroke-width="4"/><polygon points="150,80 158,100 180,100 162,112 168,132 150,120 132,132 138,112 120,100 142,100" fill="#000000"/>'
+    },
+    {
+      name: "Principado de Seborga",
+      hint: "Pueblo en la región italiana de Liguria que se declara principado independiente",
+      svg: '<rect width="300" height="200" fill="#ffffff"/><rect x="18" y="60" width="64" height="80" rx="8" fill="#1a3f8f"/><rect x="44" y="70" width="12" height="60" fill="#ffffff"/><rect x="24" y="94" width="52" height="12" fill="#ffffff"/><polygon points="30,58 50,42 70,58" fill="#f2c744" stroke="#1a3f8f" stroke-width="2"/><g stroke="#1a3f8f" stroke-width="4"><line x1="110" y1="20" x2="300" y2="20"/><line x1="110" y1="38" x2="300" y2="38"/><line x1="110" y1="56" x2="300" y2="56"/><line x1="110" y1="74" x2="300" y2="74"/><line x1="110" y1="92" x2="300" y2="92"/><line x1="110" y1="110" x2="300" y2="110"/><line x1="110" y1="128" x2="300" y2="128"/><line x1="110" y1="146" x2="300" y2="146"/><line x1="110" y1="164" x2="300" y2="164"/></g>'
+    },
+    {
+      name: "Freetown Christiania",
+      hint: "Comuna autogestionada dentro de la ciudad de Copenhague, Dinamarca",
+      svg: '<rect width="300" height="200" fill="#d0182a"/><circle cx="90" cy="100" r="26" fill="#f4c430"/><circle cx="150" cy="100" r="26" fill="#f4c430"/><circle cx="210" cy="100" r="26" fill="#f4c430"/>'
+    },
+    {
+      name: "Imperio de Atlantium",
+      hint: "Micronación fundada en Australia que se declara un imperio global",
+      svg: '<rect width="300" height="66.67" y="0" fill="#3fa9f5"/><rect width="300" height="66.67" y="66.67" fill="#f4c430"/><rect width="300" height="66.66" y="133.34" fill="#e07a1f"/>'
+    },
+    {
+      name: "Gran Ducado de Westarctica",
+      hint: "Micronación que reclama un sector no reivindicado de la Antártida",
+      svg: '<rect width="300" height="200" fill="#14539a"/><rect x="120" y="0" width="30" height="200" fill="#ffffff"/><rect x="0" y="85" width="300" height="30" fill="#ffffff"/><polygon points="25,40 33,20 41,34 49,14 57,34 65,20 73,40" fill="#ffffff"/><rect x="23" y="40" width="52" height="8" fill="#ffffff"/>'
+    },
+    {
+      name: "Principado de Hutt River",
+      hint: "Antigua explotación agrícola en Australia Occidental que se declaró independiente en 1970",
+      svg: '<rect width="300" height="200" fill="#1b3f8b"/><circle cx="150" cy="100" r="55" fill="#f4c430" stroke="#ffffff" stroke-width="5"/><circle cx="150" cy="100" r="38" fill="#1b3f8b" stroke="#ffffff" stroke-width="3"/><path d="M150 75 L158 95 L180 95 L162 108 L169 130 L150 117 L131 130 L138 108 L120 95 L142 95 Z" fill="#f4c430"/>'
+    },
+    {
+      name: "República de Zaqistán",
+      hint: "Micronación en un enclave del desierto occidental de Utah, EE. UU., cuyo símbolo es un calamar gigante",
+      svg: '<rect width="300" height="200" fill="#c8102e"/><ellipse cx="150" cy="90" rx="34" ry="44" fill="#f4c430"/><path d="M120 130 Q110 165 100 190" stroke="#f4c430" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M138 138 Q132 172 126 195" stroke="#f4c430" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M162 138 Q168 172 174 195" stroke="#f4c430" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M180 130 Q190 165 200 190" stroke="#f4c430" stroke-width="8" fill="none" stroke-linecap="round"/><circle cx="138" cy="82" r="5" fill="#c8102e"/><circle cx="162" cy="82" r="5" fill="#c8102e"/>'
+    },
+    {
+      name: "Reino de Redonda",
+      hint: "Islote deshabitado del Caribe, cerca de Antigua y Barbuda, con un título nobiliario disputado por escritores",
+      svg: '<rect width="300" height="66.67" y="0" fill="#8ecae6"/><rect width="300" height="66.67" y="66.67" fill="#1b512d"/><rect width="300" height="66.66" y="133.34" fill="#6f4433"/>'
+    },
+    {
+      name: "República de Užupis",
+      hint: "Barrio bohemio de Vilna, Lituania, que se declaró república independiente el 1 de abril",
+      svg: '<rect width="300" height="200" fill="#ffffff"/><circle cx="150" cy="100" r="55" fill="#1c4fa0"/><path d="M150 60 C165 60 172 72 170 85 C178 88 182 98 176 108 L178 150 L164 150 L160 130 L156 150 L144 150 L140 130 L136 150 L122 150 L124 108 C118 98 122 88 130 85 C128 72 135 60 150 60 Z" fill="#ffffff"/><circle cx="150" cy="105" r="8" fill="#1c4fa0"/>'
+    },
+    {
+      name: "Reinos de Elgaland-Vargaland",
+      hint: "Micronación conceptual creada por dos artistas suecos, que reclama todas las fronteras y espacios digitales del mundo",
+      svg: '<rect width="300" height="200" fill="#000000"/><g stroke="#ffffff" stroke-width="14"><line x1="-40" y1="220" x2="80" y2="-20"/><line x1="20" y1="220" x2="140" y2="-20"/><line x1="80" y1="220" x2="200" y2="-20"/><line x1="140" y1="220" x2="260" y2="-20"/><line x1="200" y1="220" x2="320" y2="-20"/><line x1="260" y1="220" x2="380" y2="-20"/></g>'
+    },
+    {
+      name: "República de Kugelmugel",
+      hint: "Micronación formada por una casa con forma de esfera en Viena, Austria",
+      svg: '<rect width="300" height="200" fill="#c6007e"/><circle cx="150" cy="100" r="58" fill="#ffffff" stroke="#000000" stroke-width="4"/><circle cx="150" cy="100" r="34" fill="none" stroke="#c6007e" stroke-width="3"/>'
+    }
+  ];
+
+  const flagBox = document.getElementById("flagBox");
+  const answerEl = document.getElementById("answerText");
+  const hintEl = document.getElementById("hintText");
+  const revealBtn = document.getElementById("revealBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const scoreEl = document.getElementById("score");
+
+  let current = null;
+  let seenCount = 0;
+  let revealed = false;
+
+  function pickRandom() {
+    const idx = Math.floor(Math.random() * micronations.length);
+    return micronations[idx];
+  }
+
+  function updateScoreText() {
+    scoreEl.textContent = "Vistas: " + seenCount + " · Total de micronaciones: " + micronations.length;
+  }
+
+  function newRound() {
+    current = pickRandom();
+    flagBox.innerHTML = '<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">' + current.svg + '</svg>';
+    answerEl.textContent = "¿De qué micronación es esta bandera?";
+    answerEl.classList.add("hidden-text");
+    hintEl.textContent = "";
+    revealed = false;
+    revealBtn.textContent = "Revelar";
+  }
+
+  function reveal() {
+    if (!revealed) {
+      answerEl.textContent = current.name;
+      answerEl.classList.remove("hidden-text");
+      hintEl.textContent = current.hint;
+      revealed = true;
+      seenCount++;
+      updateScoreText();
+    }
+  }
+
+  function resetGame() {
+    seenCount = 0;
+    updateScoreText();
+    newRound();
+  }
+
+  revealBtn.addEventListener("click", reveal);
+  nextBtn.addEventListener("click", newRound);
+  resetBtn.addEventListener("click", resetGame);
+
+  updateScoreText();
+  newRound();
+
+  // Registro del service worker para funcionamiento offline (PWA)
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("./service-worker.js")
+        .catch((err) => console.error("Error al registrar el service worker:", err));
+    });
+  }
+</script>
+</body>
+</html>
