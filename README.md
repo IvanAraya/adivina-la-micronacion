@@ -2,7 +2,7 @@
 
 Juego web progresivo (PWA) para adivinar micronaciones (entidades que se autoproclaman naciones o estados soberanos sin reconocimiento internacional) a partir de su bandera. Funciona sin conexión una vez instalada.
 
-Incluye 26 micronaciones conocidas: Sealand, Molossia, Ladonia, Talossa, Liberland, Seborga, Freetown Christiania, Atlantium, Westarctica, Hutt River, Zaqistán, Redonda, Užupis, Elgaland-Vargaland, Kugelmugel, Araucanía y Patagonia, Isla de las Rosas, Conch (Cayo Hueso), Minerva, Saugeais, Flandrensis, el Reino Gay y Lésbico de las Islas del Mar del Coral, Outer Baldonia, Austenasia, Imperio Aericano y los Estados Libres Ambulantes de Obsidia.
+Incluye 25 micronaciones conocidas: Sealand, Molossia, Ladonia, Talossa, Liberland, Seborga, Freetown Christiania, Atlantium, Westarctica, Hutt River, Zaqistán, Redonda, Užupis, Elgaland-Vargaland, Kugelmugel, Araucanía y Patagonia, Isla de las Rosas, Conch (Cayo Hueso), Minerva, Saugeais, Flandrensis, Outer Baldonia, Austenasia, Imperio Aericano y los Estados Libres Ambulantes de Obsidia.
 
 ## Sobre las banderas
 
@@ -33,7 +33,6 @@ Créditos por bandera (página del archivo en Wikimedia Commons):
 | Minerva | [Flag_Minerva.svg](https://commons.wikimedia.org/wiki/File:Flag_Minerva.svg) |
 | Saugeais | [Flag_of_Saugeais.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Saugeais.svg) |
 | Flandrensis | [Flag_of_Flandrensis.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Flandrensis.svg) |
-| Reino Gay y Lésbico de las Islas del Mar del Coral | [Gay_Pride_Flag.svg](https://commons.wikimedia.org/wiki/File:Gay_Pride_Flag.svg) |
 | Outer Baldonia | [Flag_of_Outer_Baldonia.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Outer_Baldonia.svg) |
 | Austenasia | [Flag_of_Austenasia.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Austenasia.svg) |
 | Imperio Aericano | [Flag_of_Aerica.svg](https://commons.wikimedia.org/wiki/File:Flag_of_Aerica.svg) |
